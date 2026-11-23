@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>스포츠 구단 앱 · 와이어프레임 제안</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:#eceef1;color:#333;line-height:1.45}
+.top{position:sticky;top:0;z-index:20;background:#1f2329;color:#fff;padding:12px 20px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.top h1{font-size:15px;font-weight:600}.top small{opacity:.6;font-weight:400;margin-left:6px}
+.ctl{display:flex;gap:6px;flex-wrap:wrap}
+.ctl button{border:1px solid #555;background:transparent;color:#ddd;padding:6px 14px;border-radius:16px;font-size:13px;cursor:pointer}
+.ctl button.on{background:#fff;color:#1f2329;border-color:#fff}
+.view{display:none;padding:24px 20px 60px}.view.on{display:block}
+.intro{max-width:1240px;margin:0 auto 18px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:900px){.intro{grid-template-columns:1fr 1fr}}
+.intro div{background:#fff;border-radius:8px;padding:10px 12px;font-size:12.5px;color:#555}
+.intro b{display:flex;align-items:center;gap:6px;color:#222;margin-bottom:2px}
+.row{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;gap:22px;justify-content:center}
+.ph{width:270px}
+.cap{font-size:13px;font-weight:700;color:#444;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.phone{width:270px;height:560px;background:#fff;border:8px solid #2a2e35;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.sb{height:22px;font-size:10px;color:#999;display:flex;justify-content:space-between;padding:4px 14px}
+.hd{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #eee;font-size:13px;font-weight:700}
+.bd{flex:1;padding:12px;overflow:hidden;display:flex;flex-direction:column;gap:9px}
+.tb{height:50px;border-top:1px solid #e5e7ea;display:grid;grid-template-columns:repeat(5,1fr);font-size:9.5px;color:#999;text-align:center;align-items:center}
+.tb .on{color:#222;font-weight:700}
+.box{background:#e3e5e8;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#8a9099;font-size:11.5px;text-align:center}
+.card{border:1.5px solid #d3d7dc;border-radius:10px;padding:10px;font-size:12px}
+.hl{border-color:#ff6b3d;background:#fff8f5}
+.ln{height:8px;background:#d9dcdf;border-radius:4px;margin:4px 0}.ln.s{width:60%}.ln.xs{width:35%}
+.btn{background:#555;color:#fff;border-radius:8px;padding:10px;text-align:center;font-size:12.5px;font-weight:600}
+.btn.o{background:#fff;color:#555;border:1.5px solid #555}
+.btn.acc{background:#ff6b3d}
+.chips{display:flex;gap:5px;flex-wrap:wrap}.chips span{border:1.5px solid #d3d7dc;border-radius:12px;padding:3px 8px;font-size:10.5px;color:#777}.chips span.on{background:#555;color:#fff;border-color:#555}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seat{display:grid;grid-template-columns:repeat(8,1fr);gap:3px}.seat i{height:14px;border-radius:3px;background:#d9dcdf}.seat i.x{background:#9aa0a8}.seat i.s{background:#ff6b3d}
+.n{display:inline-flex;width:20px;height:20px;border-radius:50%;background:#ff6b3d;color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;flex:none}
+.note{margin-top:8px;font-size:12px;color:#8a3b1c;background:#fff4ef;border:1px solid #ffd3c2;border-radius:6px;padding:7px 9px}
+.qr{width:130px;height:130px;margin:6px auto;background:repeating-linear-gradient(45deg,#bbb 0 6px,#ddd 6px 12px);border-radius:6px}
+.big{font-size:30px;font-weight:800;text-align:center;letter-spacing:2px}
+.step{display:flex;gap:4px}.step i{flex:1;height:5px;border-radius:3px;background:#d9dcdf}.step i.on{background:#555}
+.fl{font-size:11px;color:#888}.field{border:1.5px solid #d3d7dc;border-radius:7px;height:32px}
+.st{display:flex;justify-content:space-between;align-items:center}
+.tag{font-size:10px;border-radius:10px;padding:2px 7px;background:#eee;color:#666}.tag.ok{background:#e6f4ea;color:#2e7d32}.tag.w{background:#fff3e0;color:#e65100}
+/* admin */
+.adm{max-width:1240px;margin:0 auto 26px;background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.06);display:grid;grid-template-columns:190px 1fr;min-height:520px;overflow:hidden}
+@media(max-width:800px){.adm{grid-template-columns:1fr}.side{display:none}}
+.side{background:#2a2e35;color:#aab;padding:16px 12px;font-size:12.5px;display:flex;flex-direction:column;gap:4px}
+.side b{color:#fff;margin-bottom:10px}.side span{padding:7px 10px;border-radius:6px}.side span.on{background:#454b55;color:#fff}
+.main{padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}@media(max-width:800px){.kpi{grid-template-columns:1fr 1fr}}
+.kpi div{border:1.5px solid #d3d7dc;border-radius:10px;padding:12px;font-size:12px;color:#777}.kpi b{display:block;font-size:20px;color:#333;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{border-bottom:1px solid #eceef1;padding:8px;text-align:left}th{color:#888;font-weight:600;background:#f7f8f9}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.bar .field{width:180px;height:32px}
+.atitle{max-width:1240px;margin:0 auto 8px;font-size:13px;font-weight:700;color:#444;display:flex;gap:6px;align-items:center}
+</style></head><body>
+<div class="top"><h1>스포츠 구단 앱 · 와이어프레임 제안<small>Lo-fi · 기획 방향 합의용</small></h1>
+<div class="ctl"><button class="on" data-v="app">사용자 앱</button><button data-v="admin">관리자 웹</button></div></div>
+
+<div class="view on" id="app">
+<div class="intro">
+<div><b><span class="n">1</span>경기일 중심 홈</b>경기 전 · 당일에 따라 홈 맨 위가 바뀝니다</div>
+<div><b><span class="n">2</span>구매 흐름 통일</b>티켓 · 상품 · F&B가 같은 결제 · 주문 내역</div>
+<div><b><span class="n">3</span>예외부터 정책으로</b>취소 · 연기 · 품절을 화면과 알림에 먼저 정의</div>
+<div><b><span class="n">4</span>신청은 짧게</b>단계별 입력 + 신청 상태 표시</div>
+<div><b><span class="n">5</span>관리자는 경기일부터</b>오늘 판매 · 재고 · 주문 대기 한 화면 (관리자 웹 탭)</div>
+</div>
+<div class="row">
+
+<div class="ph"><div class="cap"><span class="n">1</span>홈 · 경기 전</div><div class="phone"><div class="sb"><span>9:41</span><span>●●●</span></div>
+<div class="hd"><span>EMBLEM</span><span>🔔</span></div>
+<div class="bd">
+<div class="card hl"><div class="st"><b>다음 경기 · 토 18:00</b><span class="tag w">D-3</span></div><div class="g3" style="margin:8px 0"><div class="box" style="height:40px">홈</div><div class="box" style="height:20px;background:none">VS</div><div class="box" style="height:40px">원정</div></div><div class="btn acc">티켓 예매</div></div>
+<div class="chips"><span class="on">전체</span><span>공지</span><span>선수</span><span>아카데미</span></div>
+<div class="box" style="height:90px">구단 소식 배너</div>
+<div class="g2"><div class="box" style="height:70px">굿즈 신상품</div><div class="box" style="height:70px">아카데미 모집</div></div>
+<div class="card"><div class="ln"></div><div class="ln s"></div></div>
+</div>
+<div class="tb"><span class="on">홈</span><span>티켓</span><span>스토어</span><span>참여</span><span>MY</span></div></div>
+<div class="note">평소에는 "다음 경기 + 예매"가 맨 위. 구단 · 선수 소개는 텍스트 정보라 MY · 메뉴 안으로 둡니다.</div></div>
+
+<div class="ph"><div class="cap"><span class="n">1</span>홈 · 경기 당일</div><div class="phone"><div class="sb"><span>17:20</span><span>●●●</span></div>
+<div class="hd"><span>EMBLEM</span><span>🔔</span></div>
+<div class="bd">
+<div class="card hl"><div class="st"><b>오늘 경기 · 18:00</b><span class="tag ok">입장 중</span></div><div style="font-size:11px;color:#888;margin:4px 0">1루 응원석 · 3열 12번</div><div class="btn acc">내 티켓 QR 열기</div></div>
+<div class="g2"><div class="card" style="text-align:center"><b>🍔 F&B 주문</b><div style="font-size:10.5px;color:#888">평균 대기 8분</div></div><div class="card" style="text-align:center"><b>🗺 경기장 안내</b><div style="font-size:10.5px;color:#888">게이트 · 화장실</div></div></div>
+<div class="card"><div class="st"><b>진행 중인 주문</b><span class="tag w">조리 중</span></div><div style="font-size:11px;color:#888">픽업 번호 A-102 · 3번 매점</div></div>
+<div class="box" style="height:80px">오늘의 라인업 · 이벤트</div>
+</div>
+<div class="tb"><span class="on">홈</span><span>티켓</span><span>스토어</span><span>참여</span><span>MY</span></div></div>
+<div class="note">경기 당일에는 같은 홈이 "입장 · 주문 · 안내" 모드로 바뀝니다. 현장에서 앱을 찾아 헤매지 않게.</div></div>
+
+<div class="ph"><div class="cap">티켓 예매 · 좌석 선택</div><div class="phone"><div class="sb"><span>9:41</span><span>●●●</span></div>
+<div class="hd"><span>‹ 좌석 선택</span><span></span></div>
+<div class="bd">
+<div class="chips"><span class="on">1루 응원석</span><span>중앙</span><span>3루</span><span>외야</span></div>
+<div class="box" style="height:70px">경기장 구역도</div>
+<div class="seat"><i></i><i class="x"></i><i></i><i></i><i class="s"></i><i class="s"></i><i></i><i class="x"></i><i></i><i></i><i class="x"></i><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i></i><i></i><i></i><i></i></div>
+<div style="font-size:10.5px;color:#888">■ 선택 ■ 판매됨 · 선택 후 10분간 좌석을 잡아 둡니다</div>
+<div class="card"><div class="st"><span>성인 2</span><b>36,000원</b></div></div>
+<div class="btn acc" style="margin-top:auto">결제하기</div>
+</div></div>
+<div class="note">좌석을 고르는 순간 일정 시간 잡아 두는 규칙(중복 판매 방지)을 기획서에 명시합니다.</div></div>
+
+<div class="ph"><div class="cap"><span class="n">2</span>공통 결제</div><div class="phone"><div class="sb"><span>9:41</span><span>●●●</span></div>
+<div class="hd"><span>‹ 결제</span><span></span></div>
+<div class="bd">
+<div class="card"><div class="st"><span class="tag">티켓</span><b>36,000원</b></div><div style="font-size:11px;color:#888;margin-top:4px">토 18:00 · 1루 응원석 2매</div></div>
+<div class="card"><div class="st"><span class="tag">상품</span><b>59,000원</b></div><div style="font-size:11px;color:#888;margin-top:4px">홈 유니폼 L · 현장 수령</div></div>
+<div class="fl">결제 수단</div><div class="g2"><div class="btn o">간편결제</div><div class="btn o">카드</div></div>
+<div class="card" style="font-size:11px;color:#777">취소 · 환불 규정 요약<div class="ln"></div><div class="ln s"></div><span style="text-decoration:underline">전체 보기</span></div>
+<div class="btn acc" style="margin-top:auto">95,000원 결제</div>
+</div></div>
+<div class="note">티켓 · 상품 · F&B가 같은 결제 화면과 주문 내역을 씁니다. 팬은 한 번 익히면 되고, 개발 범위도 줄어듭니다.</div></div>
+
+<div class="ph"><div class="cap">내 티켓 · QR</div><div class="phone" style="background:#fafafa"><div class="sb"><span>17:40</span><span>●●●</span></div>
+<div class="hd"><span>‹ 내 티켓</span><span>1 / 2</span></div>
+<div class="bd" style="text-align:center">
+<div style="font-size:12px;color:#888">토 18:00 · 홈 vs 원정</div>
+<div class="qr"></div>
+<div style="font-size:13px;font-weight:700">1루 응원석 · 3열 12번</div>
+<div style="font-size:11px;color:#888">게이트 2 입장 · 화면 밝기 자동 최대</div>
+<div class="btn o">옆 사람에게 티켓 보내기</div>
+</div></div>
+<div class="note">현장에서 보여 주는 화면은 큰 글씨 · 높은 대비. 홈에서 한 번에 열립니다.</div></div>
+
+<div class="ph"><div class="cap">F&B 주문 · 픽업</div><div class="phone"><div class="sb"><span>18:25</span><span>●●●</span></div>
+<div class="hd"><span>‹ 주문 현황</span><span></span></div>
+<div class="bd">
+<div class="step"><i class="on"></i><i class="on"></i><i></i></div>
+<div class="st" style="font-size:11px;color:#888"><span>주문 접수</span><span><b style="color:#333">조리 중</b></span><span>픽업 가능</span></div>
+<div class="card hl" style="text-align:center"><div style="font-size:11px;color:#888">픽업 번호</div><div class="big">A-102</div><div style="font-size:11px;color:#888">3번 매점 · 약 6분 후</div></div>
+<div class="card"><div class="st"><span>치킨 세트 1</span><span>22,000원</span></div><div class="st"><span>맥주 2</span><span>12,000원</span></div></div>
+<div class="card" style="font-size:11px;color:#777">🔔 조리가 끝나면 푸시 알림으로 알려 드려요</div>
+</div></div>
+<div class="note">품절은 주문 전에 메뉴에서 바로 표시. 주문 후 품절되면 자동 환불 + 알림 (정책 문서에 정의).</div></div>
+
+<div class="ph"><div class="cap"><span class="n">3</span>예외 알림 · 경기 취소</div><div class="phone"><div class="sb"><span>16:00</span><span>●●●</span></div>
+<div class="hd"><span>‹ 알림</span><span></span></div>
+<div class="bd">
+<div class="card hl"><b>⛈ 우천으로 오늘 경기가 취소됐어요</b><div style="font-size:11px;color:#777;margin-top:4px">티켓 2매 · 36,000원은 결제 수단으로 자동 환불됩니다 (영업일 3일 이내)</div><div class="btn o" style="margin-top:8px">환불 내역 보기</div></div>
+<div class="card"><b>F&B 사전 주문 취소</b><div style="font-size:11px;color:#777">자동 환불 처리됨</div></div>
+<div class="card"><b>재경기 일정 안내</b><div style="font-size:11px;color:#777">일정 확정 시 알려 드릴게요</div></div>
+</div></div>
+<div class="note">경기 취소 · 연기 · 품절 같은 예외를 화면과 알림 문구까지 먼저 설계해, 운영자가 손으로 연락하지 않게 합니다.</div></div>
+
+<div class="ph"><div class="cap"><span class="n">4</span>아카데미 · 사회공헌 신청</div><div class="phone"><div class="sb"><span>9:41</span><span>●●●</span></div>
+<div class="hd"><span>‹ 유소년 아카데미 신청</span><span></span></div>
+<div class="bd">
+<div class="step"><i class="on"></i><i class="on"></i><i></i></div>
+<div style="font-size:13px;font-weight:700">2/3 · 참가자 정보</div>
+<div class="fl">참가자 이름</div><div class="field"></div>
+<div class="fl">학년</div><div class="chips"><span>초1-2</span><span class="on">초3-4</span><span>초5-6</span></div>
+<div class="fl">보호자 연락처</div><div class="field"></div>
+<div class="card" style="font-size:11px">남은 자리 4 / 20 · 마감 시 대기 신청으로 전환</div>
+<div class="btn" style="margin-top:auto">다음</div>
+</div></div>
+<div class="note">필수 항목만 3단계로. 신청 후 MY에서 접수 · 확정 · 대기 상태를 보고, 바뀌면 알림을 받습니다.</div></div>
+
+<div class="ph"><div class="cap">소액 파트너 커뮤니티</div><div class="phone"><div class="sb"><span>9:41</span><span>●●●</span></div>
+<div class="hd"><span>파트너 라운지</span><span>✏️</span></div>
+<div class="bd">
+<div class="card hl" style="font-size:11px">📌 이번 달 파트너 모임 · 공지</div>
+<div class="chips"><span class="on">전체</span><span>공지</span><span>모임</span><span>자유</span></div>
+<div class="card"><div class="st"><b>파트너 A</b><span class="tag">모임</span></div><div class="ln"></div><div class="ln s"></div></div>
+<div class="card"><div class="st"><b>파트너 B</b><span class="tag">자유</span></div><div class="ln"></div><div class="ln xs"></div></div>
+<div class="card"><div class="ln"></div><div class="ln s"></div></div>
+</div>
+<div class="tb"><span>홈</span><span>티켓</span><span>스토어</span><span class="on">참여</span><span>MY</span></div></div>
+<div class="note">누가 들어올 수 있고 무엇을 할 수 있는지(운영 정책)를 먼저 정한 뒤 화면을 확정합니다. MVP에서는 3순위.</div></div>
+
+</div></div>
+
+<div class="view" id="admin">
+<div class="atitle"><span class="n">5</span>경기일 대시보드</div>
+<div class="adm"><div class="side"><b>CLUB ADMIN</b><span class="on">오늘 경기</span><span>티켓 · 좌석</span><span>상품 · 재고</span><span>F&B 주문</span><span>신청자 관리</span><span>커뮤니티</span><span>구단 · 선수 정보</span><span>알림 발송</span><span>정책 · 환불</span></div>
+<div class="main">
+<div class="st"><b style="font-size:16px">토 18:00 · 홈 vs 원정</b><span class="tag ok">입장 중 · 실시간</span></div>
+<div class="kpi"><div>티켓 판매<b>8,214 / 9,000</b></div><div>입장 완료<b>5,102</b></div><div>F&B 주문 대기<b>37건</b></div><div>오늘 매출<b>1억 2,300만</b></div></div>
+<div style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px">
+<div class="card"><b>재고 경고</b><table><tr><th>상품</th><th>재고</th><th>상태</th></tr><tr><td>홈 유니폼 L</td><td>3</td><td><span class="tag w">곧 품절</span></td></tr><tr><td>응원 타월</td><td>0</td><td><span class="tag">품절 · 앱 자동 반영</span></td></tr><tr><td>치킨 세트</td><td>12</td><td><span class="tag ok">정상</span></td></tr></table></div>
+<div class="card"><b>매점별 주문 대기</b><table><tr><th>매점</th><th>대기</th><th>평균</th></tr><tr><td>1번</td><td>9</td><td>6분</td></tr><tr><td>3번</td><td>21</td><td>14분</td></tr><tr><td>5번</td><td>7</td><td>5분</td></tr></table></div>
+</div>
+<div class="card" style="background:#fff8f5;border-color:#ffd3c2"><b>경기 취소 처리</b><div style="font-size:12px;color:#777;margin:4px 0">버튼 하나로 이 경기의 티켓 · F&B 사전 주문 일괄 환불 + 안내 푸시 발송</div><span class="btn o" style="display:inline-block;padding:7px 14px">경기 취소 · 일괄 환불</span></div>
+<div class="note">운영자가 경기 당일 가장 먼저 보는 화면. 판매 · 입장 · 주문 대기 · 재고 경고를 한 화면에, 예외 처리는 버튼 하나로.</div>
+</div></div>
+
+<div class="atitle">신청자 관리 (아카데미 · 사회공헌)</div>
+<div class="adm"><div class="side"><b>CLUB ADMIN</b><span>오늘 경기</span><span>티켓 · 좌석</span><span>상품 · 재고</span><span>F&B 주문</span><span class="on">신청자 관리</span><span>커뮤니티</span><span>구단 · 선수 정보</span><span>알림 발송</span><span>정책 · 환불</span></div>
+<div class="main">
+<div class="bar"><div class="chips"><span class="on">유소년 아카데미</span><span>사회공헌 봉사</span></div><div class="field"></div><div class="chips"><span class="on">전체</span><span>접수</span><span>확정</span><span>대기</span></div><span class="btn o" style="padding:6px 12px;margin-left:auto">엑셀 내려받기</span></div>
+<table><tr><th><input type="checkbox"></th><th>신청일</th><th>참가자</th><th>학년</th><th>보호자 연락처</th><th>상태</th></tr>
+<tr><td><input type="checkbox"></td><td>11.20</td><td>참가자 1</td><td>초3-4</td><td>010-****-****</td><td><span class="tag ok">확정</span></td></tr>
+<tr><td><input type="checkbox"></td><td>11.21</td><td>참가자 2</td><td>초5-6</td><td>010-****-****</td><td><span class="tag">접수</span></td></tr>
+<tr><td><input type="checkbox"></td><td>11.22</td><td>참가자 3</td><td>초3-4</td><td>010-****-****</td><td><span class="tag w">대기</span></td></tr></table>
+<div class="bar"><span style="font-size:12px;color:#888">선택한 1명</span><span class="btn" style="padding:6px 12px">확정 처리 + 알림 발송</span></div>
+<div class="note">표 · 필터 · 엑셀 중심. 상태를 바꾸면 신청자에게 알림이 자동으로 가도록 연결합니다. 연락처는 기본으로 가려 개인정보를 보호합니다.</div>
+</div></div>
+</div>
+
+<script>
+document.querySelectorAll('.ctl button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.ctl button').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id===b.dataset.v));window.scrollTo(0,0)});
+</script></body></html>
